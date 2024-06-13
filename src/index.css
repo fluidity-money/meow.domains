@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+a {
+  color: #fff;
+}
+
+a:hover {
+  color: #fff;
+}
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  /*background: linear-gradient(90deg, #000000 0%, #000000 100%);*/
+  background: #1E1E1E;
+  color: #fff;
+}
+
+.navbar-brand {
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: #FFFFFF;
+}
+
+code {
+  color: #fff;
+  font-style: italic;
+}
+
+p {
+  font-size: 18px;
+}
+
+div {
+  font-size: 18px;
+}
+
+hr {
+  background-color: #fff;
+}
+
+.btn-primary, .btn-primary:active, .btn-primary:focus, .btn-primary:disabled {
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  border: 2px solid white;
+}
+
+.btn-primary:hover {
+  color: #000;
+  background: #fff;
+  border: 2px solid white;
+}
+
+.btn-secondary, .btn-secondary:active, .btn-secondary:focus, .btn-secondary:disabled {
+  background: white;
+  border-color: black;
+  box-shadow: none;
+  color: black;
+  border: 2px solid black;
+}
+
+.btn-secondary:hover {
+  color: black;
+  border-color: #ffffff;
+  background: #ffffff;
+  border: 2px solid black;
+}
+
+.card-img-wallet:hover {
+  opacity: 0.5;
+}
+
+.card-img-wallet:active {
+  transform: scale(0.8);
+}
+
+.container {
+  background: transparent;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #fff;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.img-thumbnail {
+  background-color: transparent;
+}
+
+.modal-content {
+  color: black;
+}
+
+.span-link:hover {
+  color: #1c1b1b;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.span-link {
+  text-decoration: underline;
+}
+
+.table > tbody > tr > td {
+  color: white;
+  background-color: transparent;
+}
+
+.Vue-Toastification__toast--info {
+  background-color: #464555;
+}
+
+.Vue-Toastification__toast--success {
+  background-color: #00925D;
+}
+
+.Vue-Toastification__toast--error {
+  background-color: #DF2E00;
+}
+
+.wallet-img-wrapper {
+  border-width: 2px;
+  border-color: #ffffff;
+  border-style: solid;
+}
+
+@media only screen and (max-width: 767px) {
+  #sidebar-container {
+    margin-bottom: 15px;
+  }
+}
