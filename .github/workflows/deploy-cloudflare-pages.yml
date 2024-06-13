@@ -4,9 +4,7 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches:
-      - development
-    paths:
-      - 'web/**'
+      - main
 
 jobs:
   deploy-to-cloudflare-pages:
