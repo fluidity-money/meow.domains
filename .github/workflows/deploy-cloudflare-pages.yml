@@ -31,6 +31,9 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
       - run: |
+          npm i
+
+      - run: |
           npx vite build
 
       - name: Publish to Cloudflare Pages
