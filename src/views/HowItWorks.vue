@@ -6,7 +6,7 @@
 			<div class="col-md-8 offset-md-2">
 				<p>
 					Read the Docs
-					<a href="https://docs.superposition.so/">Here!</a>
+					<a href="https://docs.superposition.so/native-dapps/meow-domains">Here!</a>
 				</p>
 			</div>
 		</div>
