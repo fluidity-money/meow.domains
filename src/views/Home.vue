@@ -428,7 +428,7 @@ export default {
 }
 
 .main-img {
-	width: 6em;
+	width: 30em;
 }
 
 th:first-of-type {
