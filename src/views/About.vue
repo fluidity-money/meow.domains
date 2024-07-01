@@ -48,8 +48,8 @@
 
 				<p>
 					The protocol is completely permissionless and the code is open-sourced on our Github:
-					<a href="https://github.com/punk-domains-2/meow-domains"
-						>https://github.com/punk-domains-2/meow-domains</a
+					<a href="https://github.com/fluidity-money/meow.domains/"
+						>https://github.com/fluidity-money/meow.domains/</a
 					>.
 				</p>
 
