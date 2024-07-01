@@ -2,7 +2,7 @@
 	<nav class="navbar navbar-expand-lg navbar-dark">
 		<div class="container-fluid">
 			<router-link to="/" class="navbar-brand">
-				<img src="/assets/logo.svg" alt="" height="30" class="d-inline-block align-text-bottom navbar-img" />
+				<img src="/assets/favicon.svg" alt="" height="30" class="d-inline-block align-text-bottom navbar-img" />
 				Meow Domains
 			</router-link>
 
@@ -23,9 +23,9 @@
 					<div class="navbar-menu-buttons">
 
 						<!--
-            <a 
-              class="btn btn-primary mx-2 navbar-menu-btn" 
-              href="" 
+            <a
+              class="btn btn-primary mx-2 navbar-menu-btn"
+              href=""
               target="_blank"
             >Marketplace</a>
             -->
