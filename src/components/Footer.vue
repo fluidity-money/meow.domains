@@ -17,7 +17,7 @@
 	</div>
 
 	<div class="container-fluid text-center">
-		<a class="icons" href="http://docs.punk.domains" target="_blank"><i class="bi bi-journal-text"></i></a>
+		<a class="icons" href="http://docs.superposition.so" target="_blank"><i class="bi bi-journal-text"></i></a>
 
 		<a class="icons" target="_blank" href="https://github.com/fluidity-money/meow.domains/"
 			><i class="bi bi-github"></i
