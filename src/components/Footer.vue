@@ -23,7 +23,7 @@
 			><i class="bi bi-github"></i
 		></a>
 
-		<a class="icons" target="_blank" href="https://discord.gg/superposition"><i class="bi bi-discord"></i></a>
+		<a class="icons" target="_blank" href=""><i class="bi bi-discord"></i></a>
 
 		<a class="icons" target="_blank" href="https://x.com/superpositionso"><i class="bi bi-twitter"></i></a>
 	</div>
