@@ -40,7 +40,7 @@
 
 		<div class="text-align-header">
 			<p class="mt-5 price-text">
-				Domain price: {{ getFormattedPrice(getPrice) }}
+				Domain price: {{ getPrice }}
 				{{ getPaymentTokenName }}
 			</p>
 		</div>
@@ -131,35 +131,35 @@
 						<tr>
 							<td>1 character</td>
 							<td>
-								{{ getFormattedPrice(getMinterTldPrice1) }}
+								{{ getMinterTldPrice1 }}
 								{{ getPaymentTokenName }}
 							</td>
 						</tr>
 						<tr>
 							<td>2 characters</td>
 							<td>
-								{{ getFormattedPrice(getMinterTldPrice2) }}
+								{{ getMinterTldPrice2 }}
 								{{ getPaymentTokenName }}
 							</td>
 						</tr>
 						<tr>
 							<td>3 characters</td>
 							<td>
-								{{ getFormattedPrice(getMinterTldPrice3) }}
+								{{ getMinterTldPrice3 }}
 								{{ getPaymentTokenName }}
 							</td>
 						</tr>
 						<tr>
 							<td>4 characters</td>
 							<td>
-								{{ getFormattedPrice(getMinterTldPrice4) }}
+								{{ getMinterTldPrice4 }}
 								{{ getPaymentTokenName }}
 							</td>
 						</tr>
 						<tr>
 							<td>5+ characters</td>
 							<td>
-								{{ getFormattedPrice(getMinterTldPrice5) }}
+								{{ getMinterTldPrice5 }}
 								{{ getPaymentTokenName }}
 							</td>
 						</tr>
@@ -350,21 +350,6 @@ export default {
 				method: networkData.method,
 				params: networkData.params,
 			})
-		},
-
-		getFormattedPrice(price) {
-			// if price is less than 0.001, show 6 decimals etc.
-			if (price < 0.001) {
-				return Number(price).toFixed(4)
-			} else if (price < 0.01) {
-				return Number(price).toFixed(3)
-			} else if (price < 0.1) {
-				return Number(price).toFixed(2)
-			} else if (price < 0) {
-				return Number(price).toFixed(1)
-			} else {
-				return Math.round(price)
-			}
 		},
 	},
 
