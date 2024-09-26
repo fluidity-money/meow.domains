@@ -359,11 +359,17 @@ export default {
 					if (nameData.data) {
 						const customData = JSON.parse(nameData.data)
 
-						if (customData.imgAddress) {
+						if (customData?.image) {
+							commit(
+								'setSelectedNameImageSvg',
+								customData.image.replace('ipfs://', 'https://ipfs.io/ipfs/').replace('ar://', 'https://arweave.net/'),
+							)
+							imgFound = true
+						} else if (customData?.imgAddress) {
 							if (!customData.imgAddress.startsWith('0x')) {
 								commit(
 									'setSelectedNameImageSvg',
-									customData.imgAddress.replace('ipfs://', 'https://ipfs.io/ipfs/'),
+									customData.imgAddress.replace('ipfs://', 'https://ipfs.io/ipfs/').replace('ar://', 'https://arweave.net/'),
 								)
 								imgFound = true
 							} else if (customData.imgAddress) {

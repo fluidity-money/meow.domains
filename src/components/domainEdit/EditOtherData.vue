@@ -5,7 +5,7 @@
 		</div>
 
 		<div class="col-sm-9 punk-text text-break">
-			<span v-if="dataKey == 'imgAddress' && dataValue.startsWith('http')"
+			<span v-if="dataKey == 'image' && dataValue.startsWith('http')"
 				><a target="_blank" :href="dataValue">{{ shortUrl(dataValue) }}</a></span
 			>
 			<span v-else-if="dataKey == 'url'"
@@ -261,6 +261,15 @@ export default {
 				}
 			}
 
+			if (this.fields.findIndex(x => x.dataKey == 'image') === -1) {
+				this.fields.push({
+					dataKey: 'image',
+					dataValue: '',
+					valuePlaceholder: 'Your profile pic URL',
+				})
+			}
+
+			/*
 			if (this.fields.findIndex(x => x.dataKey == 'imgAddress') === -1) {
 				this.fields.push({
 					dataKey: 'imgAddress',
@@ -276,6 +285,7 @@ export default {
 					valuePlaceholder: 'Only needed if img is NFT',
 				})
 			}
+			*/
 
 			if (this.fields.findIndex(x => x.dataKey == 'url') === -1) {
 				this.fields.push({
