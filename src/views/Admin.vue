@@ -4,6 +4,7 @@
 
 		<div class="row mt-3 text-center">
 			<div class="col-md-8 offset-md-2">
+
 				<!-- Minter: togglePaused -->
 				<div v-if="isUserMinterAdmin">
 					<h3 v-if="getMinterPaused">Unpause the minting contract</h3>
@@ -28,6 +29,31 @@
 					<hr />
 				</div>
 				<!-- END Minter: togglePaused -->
+
+				<!-- Minter: togglePausedReservations -->
+				<div v-if="isUserMinterAdmin">
+					<h3 v-if="getReservationsPaused">Unpause minting reserved domains</h3>
+					<h3 v-if="!getReservationsPaused">Pause minting reserved domains</h3>
+
+					<button
+						v-if="isConnected"
+						class="btn btn-primary btn-lg mt-3"
+						@click="togglePausedReservations"
+						:disabled="waitingPausedReservations"
+					>
+						<span
+							v-if="waitingPausedReservations"
+							class="spinner-border spinner-border-sm mx-1"
+							role="status"
+							aria-hidden="true"
+						></span>
+						<span v-if="getReservationsPaused">Unpause</span>
+						<span v-if="!getReservationsPaused">Pause</span>
+					</button>
+
+					<hr />
+				</div>
+				<!-- END Minter: togglePausedReservations -->
 
 				<!-- Minter: changeReferralFee -->
 				<div v-if="isUserMinterAdmin">
@@ -468,6 +494,7 @@ export default {
 			waitingCmia: false, // waiting for TX to complete
 			waitingMfd: false,
 			waitingPaused: false, // waiting for TX to complete
+			waitingPausedReservations: false, // waiting for TX to complete
 			waitingPrice1: false, // waiting for TX to complete
 			waitingPrice2: false, // waiting for TX to complete
 			waitingPrice3: false, // waiting for TX to complete
@@ -493,6 +520,7 @@ export default {
 			'getMinterTldPrice3',
 			'getMinterTldPrice4',
 			'getMinterTldPrice5',
+			'getReservationsPaused',
 		]),
 	},
 
@@ -891,6 +919,57 @@ export default {
 			}
 
 			this.waitingPaused = false
+		},
+
+		async togglePausedReservations() {
+			this.waitingPausedReservations = true
+
+			// minter contract (with signer)
+			const minterIntfc = new ethers.utils.Interface(MinterAbi)
+			const minterContractSigner = new ethers.Contract(this.getMinterAddress, minterIntfc, this.signer)
+
+			try {
+				const tx = await minterContractSigner.togglePausedReservations()
+
+				const toastWait = this.toast(
+					{
+						component: WaitingToast,
+						props: {
+							text: 'Please wait for your transaction to confirm. Click on this notification to see transaction in the block explorer.',
+						},
+					},
+					{
+						type: TYPE.INFO,
+						onClick: () => window.open(this.getBlockExplorerBaseUrl + '/tx/' + tx.hash, '_blank').focus(),
+					},
+				)
+
+				const receipt = await tx.wait()
+
+				if (receipt.status === 1) {
+					this.toast.dismiss(toastWait)
+					this.toast('You have un/paused minting reserved domains!', {
+						type: TYPE.SUCCESS,
+						onClick: () => window.open(this.getBlockExplorerBaseUrl + '/tx/' + tx.hash, '_blank').focus(),
+					})
+					this.fetchMinterContractData()
+					this.waitingPausedReservations = false
+				} else {
+					this.toast.dismiss(toastWait)
+					this.toast('Transaction has failed.', {
+						type: TYPE.ERROR,
+						onClick: () => window.open(this.getBlockExplorerBaseUrl + '/tx/' + tx.hash, '_blank').focus(),
+					})
+					console.log(receipt)
+					this.waitingPausedReservations = false
+				}
+			} catch (e) {
+				console.log(e)
+				this.waitingPausedReservations = false
+				this.toast(e.message, { type: TYPE.ERROR })
+			}
+
+			this.waitingPausedReservations = false
 		},
 
 		async transferMinterOwnership() {

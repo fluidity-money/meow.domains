@@ -15,7 +15,7 @@ export default {
 		tldContract: null,
 		tldChainId: 55244,
 		tldChainName: 'Superposition',
-		minterAddress: '0x4bD57a848c56E6241296a1256FB2bDEbCdbb9dB0', // TODO
+		minterAddress: '0x3c02e28A5a5aA9eF83316F11dd79F4c8a1369793', // TODO
 		minterContract: null,
 		minterLoadingData: false,
 		minterPaused: true,
@@ -25,6 +25,8 @@ export default {
 		minterTldPrice4: 0.01,
 		minterTldPrice5: 0.0019,
 		referralFee: 1000,
+		reservationsAddress: '0x1B03D6ecd88bE3B19aBe7c76a30636689cad9Bf8', // smart contract which keeps track of all reservations
+		reservationsPaused: false,
 	}),
 
 	getters: {
@@ -76,6 +78,12 @@ export default {
 		getReferralFee(state) {
 			return state.referralFee
 		},
+		getReservationsAddress(state) {
+			return state.reservationsAddress
+		},
+		getReservationsPaused(state) {
+			return state.reservationsPaused
+		},
 	},
 
 	mutations: {
@@ -120,6 +128,9 @@ export default {
 		setReferralFee(state, fee) {
 			state.referralFee = Number(fee)
 		},
+		setReservationsPaused(state, paused) {
+			state.reservationsPaused = paused
+		}
 	},
 
 	actions: {
@@ -160,6 +171,10 @@ export default {
 			// fetch referral fee
 			const refFee = await minterContract.referralFee()
 			commit('setReferralFee', refFee)
+
+			// check if reservations are paused
+			const reservationsPaused = await minterContract.pausedReservations()
+			commit('setReservationsPaused', reservationsPaused)
 
 			commit('setMinterLoadingData', false)
 		},

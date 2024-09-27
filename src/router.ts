@@ -6,6 +6,7 @@ import Allowance from './views/Allowance.vue'
 import BrowserExtension from './views/BrowserExtension.vue'
 import DomainDetails from './views/DomainDetails.vue'
 import Home from './views/Home.vue'
+import Reserved from './views/Reserved.vue'
 import HowItWorks from './views/HowItWorks.vue'
 import Profile from './views/Profile.vue'
 import ProfileSendTokens from './views/ProfileSendTokens.vue'
@@ -19,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		name: 'Home',
-		component: Home,
+		component: Reserved, // Home, // TODO: when the period to mint reserved names is over, switch back to Home
 	},
 	{
 		path: '/about',
