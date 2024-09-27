@@ -15,7 +15,7 @@ export default {
 		tldContract: null,
 		tldChainId: 55244,
 		tldChainName: 'Superposition',
-		minterAddress: '0x3c02e28A5a5aA9eF83316F11dd79F4c8a1369793', // TODO
+		minterAddress: '0x7aa8597134eAb3259F4D7d08a09ff69EDf73DdFf', // TODO
 		minterContract: null,
 		minterLoadingData: false,
 		minterPaused: true,

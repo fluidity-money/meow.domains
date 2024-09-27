@@ -20,7 +20,12 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		name: 'Home',
-		component: Reserved, // Home, // TODO: when the period to mint reserved names is over, switch back to Home
+		component: Home,
+	},
+	{
+		path: '/reserved',
+		name: 'Reserved',
+		component: Reserved,
 	},
 	{
 		path: '/about',

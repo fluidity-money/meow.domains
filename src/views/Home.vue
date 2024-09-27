@@ -224,6 +224,8 @@ export default {
 			'getMinterTldPrice5',
 			'getMinterPaused',
 			'getMinterDiscountPercentage',
+			'getReservationsAddress',
+			'getReservationsPaused',
 			'getTldName',
 		]),
 
@@ -285,6 +287,26 @@ export default {
 				})
 				this.waiting = false
 				return
+			}
+
+			// check if domain is reserved (only if reservations are not paused)
+			if (!this.getReservationsPaused) {
+				const resInterface = new ethers.utils.Interface([
+					'function getResNameAddress(string calldata _name) external view returns (address)',
+				])
+				const resContract = new ethers.Contract(this.getReservationsAddress, resInterface, this.signer)
+				const resHolder = await resContract.getResNameAddress(this.domainLowerCase)
+
+				// if holder is not 0x0, this means that the domain is reserved
+				if (resHolder !== ethers.constants.AddressZero) {
+					if (String(resHolder).toLowerCase() !== String(this.address).toLowerCase()) {
+						this.toast('Sorry, this .meow name is reserved... Try a different one!', {
+							type: TYPE.ERROR,
+						})
+						this.waiting = false
+						return
+					}
+				}
 			}
 
 			// wrapper contract (with signer)

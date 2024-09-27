@@ -472,6 +472,7 @@ import WaitingToast from '../components/toasts/WaitingToast.vue'
 import MinterAbi from '../abi/Minter.json'
 import useDomainHelpers from '../hooks/useDomainHelpers'
 import { storeToRefs } from 'pinia'
+import { useStore } from 'vuex'
 
 export default {
 	name: 'Admin',
@@ -525,7 +526,7 @@ export default {
 	},
 
 	methods: {
-		...mapActions('tld', ['fetchMinterContractData']),
+		...mapActions('tld', ['fetchMinterContractData', 'setReservationsPaused']),
 
 		async changeMetadataAddress() {
 			this.waitingCma = true
@@ -901,7 +902,8 @@ export default {
 						type: TYPE.SUCCESS,
 						onClick: () => window.open(this.getBlockExplorerBaseUrl + '/tx/' + tx.hash, '_blank').focus(),
 					})
-					this.fetchMinterContractData()
+					//this.fetchMinterContractData()
+					this.store.commit('tld/setMinterPaused', !this.getMinterPaused)
 					this.waitingPaused = false
 				} else {
 					this.toast.dismiss(toastWait)
@@ -952,7 +954,8 @@ export default {
 						type: TYPE.SUCCESS,
 						onClick: () => window.open(this.getBlockExplorerBaseUrl + '/tx/' + tx.hash, '_blank').focus(),
 					})
-					this.fetchMinterContractData()
+					//this.setReservationsPaused(!this.getReservationsPaused)
+					this.store.commit('tld/setReservationsPaused', !this.getReservationsPaused)
 					this.waitingPausedReservations = false
 				} else {
 					this.toast.dismiss(toastWait)
@@ -1076,9 +1079,10 @@ export default {
 	setup() {
 		const { address, isConnected, signer } = useEthers()
 		const toast = useToast()
+		const store = useStore()
 		const { buyNotValid } = useDomainHelpers()
 
-		return { address, buyNotValid, isConnected, signer, toast }
+		return { address, buyNotValid, isConnected, signer, store, toast }
 	},
 }
 </script>
