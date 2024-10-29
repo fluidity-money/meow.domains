@@ -157,9 +157,12 @@ export default {
 					if (this.domainData.data) {
 						const customData = JSON.parse(this.domainData.data)
 
-						if (customData.imgAddress) {
+						if (customData?.image) {
+							this.pfpImage = customData.image.replace('ipfs://', 'https://ipfs.io/ipfs/').replace('ar://', 'https://arweave.net/')
+							noImg = false
+						} else if (customData?.imgAddress) {
 							if (!customData.imgAddress.startsWith('0x')) {
-								this.pfpImage = customData.imgAddress.replace('ipfs://', 'https://ipfs.io/ipfs/')
+								this.pfpImage = customData.imgAddress.replace('ipfs://', 'https://ipfs.io/ipfs/').replace('ar://', 'https://arweave.net/')
 								noImg = false
 							} else if (customData.imgAddress) {
 								// fetch image URL of that PFP
@@ -176,7 +179,7 @@ export default {
 						}
 
 						if (metadata.includes('ipfs://')) {
-							metadata = metadata.replace('ipfs://', 'https://ipfs.io/ipfs/')
+							metadata = metadata.replace('ipfs://', 'https://ipfs.io/ipfs/').replace('ar://', 'https://arweave.net/')
 						}
 
 						if (metadata.includes('http')) {
@@ -184,7 +187,7 @@ export default {
 							const result = await response.json()
 
 							if (result && result.image) {
-								this.pfpImage = result.image.replace('ipfs://', 'https://ipfs.io/ipfs/')
+								this.pfpImage = result.image.replace('ipfs://', 'https://ipfs.io/ipfs/').replace('ar://', 'https://arweave.net/')
 								noImg = false
 							}
 						}

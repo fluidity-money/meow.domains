@@ -2,14 +2,14 @@ import { ethers } from 'ethers'
 
 export default function useChainHelpers() {
 	function getChainId() {
-		return 98985;
+		return 55244;
 	}
 
 	function getChainName(chainId) {
 		if (chainId === 1) {
 			return 'Ethereum'
 		} else if (chainId === getChainId()) {
-			return 'Superposition Testnet'
+			return 'Superposition'
 		} else {
 			return 'Unsupported Network'
 		}
@@ -21,7 +21,7 @@ export default function useChainHelpers() {
 		if (networkId === 1) {
 			urls = ['https://1rpc.io/eth']
 		} else if (networkId === getChainId()) {
-			urls = ['https://testnet-rpc.superposition.so/']
+			urls = ['https://rpc.superposition.so/']
 		}
 
 		if (urls) {
@@ -39,15 +39,15 @@ export default function useChainHelpers() {
 		if (networkName == 'Ethereum') {
 			method = 'wallet_switchEthereumChain'
 			params = [{ chainId: '0x1' }]
-		} else if (networkName == 'Superposition Testnet') {
+		} else if (networkName == 'Superposition') {
 			method = 'wallet_addEthereumChain'
 			params = [
 				{
-					blockExplorerUrls: ['https://testnet-explorer.superposition.so/'],
+					blockExplorerUrls: ['https://explorer.superposition.so/'],
 					chainId: ethers.utils.hexValue(getChainId()),
 					chainName: networkName,
-					nativeCurrency: { decimals: 18, name: 'SPN', symbol: 'SPN' },
-					rpcUrls: ['https://testnet-rpc.superposition.so/'],
+					nativeCurrency: { decimals: 18, name: 'ETH', symbol: 'ETH' },
+					rpcUrls: ['https://rpc.superposition.so/'],
 				},
 			]
 		}

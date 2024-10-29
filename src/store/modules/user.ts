@@ -23,7 +23,7 @@ export default {
 		tokenContract: null,
 		tokenAllowance: 0, // user's allowance for wrapper contract
 		tokenBalance: 0, // user's balance
-		tokenName: 'SPN',
+		tokenName: 'ETH',
 		tokenDecimals: 18,
 		userAddress: null,
 		userAllDomainNames: [], // all domain names of current user (default + manually added)
@@ -359,11 +359,17 @@ export default {
 					if (nameData.data) {
 						const customData = JSON.parse(nameData.data)
 
-						if (customData.imgAddress) {
+						if (customData?.image) {
+							commit(
+								'setSelectedNameImageSvg',
+								customData.image.replace('ipfs://', 'https://ipfs.io/ipfs/').replace('ar://', 'https://arweave.net/'),
+							)
+							imgFound = true
+						} else if (customData?.imgAddress) {
 							if (!customData.imgAddress.startsWith('0x')) {
 								commit(
 									'setSelectedNameImageSvg',
-									customData.imgAddress.replace('ipfs://', 'https://ipfs.io/ipfs/'),
+									customData.imgAddress.replace('ipfs://', 'https://ipfs.io/ipfs/').replace('ar://', 'https://arweave.net/'),
 								)
 								imgFound = true
 							} else if (customData.imgAddress) {

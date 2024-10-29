@@ -11,20 +11,22 @@ export default {
 	state: () => ({
 		discountPercentage: 0,
 		tldName: '.meow',
-		tldAddress: '0xe0789b1AEA5a53673aDD3822Cb8bFEB5c48D8F71', // TODO
+		tldAddress: '0x4087fb91A1fBdef05761C02714335D232a2Bf3a1', // TODO
 		tldContract: null,
-		tldChainId: 98985,
-		tldChainName: 'Superposition Testnet',
-		minterAddress: '0xb29e981343daa6ea18D58cdB0800DFE962aA53e4', // TODO
+		tldChainId: 55244,
+		tldChainName: 'Superposition',
+		minterAddress: '0x7aa8597134eAb3259F4D7d08a09ff69EDf73DdFf', // TODO
 		minterContract: null,
 		minterLoadingData: false,
 		minterPaused: true,
-		minterTldPrice1: 100000,
-		minterTldPrice2: 10000,
-		minterTldPrice3: 1000,
-		minterTldPrice4: 100,
-		minterTldPrice5: 1,
+		minterTldPrice1: 10,
+		minterTldPrice2: 1,
+		minterTldPrice3: 0.1,
+		minterTldPrice4: 0.01,
+		minterTldPrice5: 0.0019,
 		referralFee: 1000,
+		reservationsAddress: '0x1B03D6ecd88bE3B19aBe7c76a30636689cad9Bf8', // smart contract which keeps track of all reservations
+		reservationsPaused: false,
 	}),
 
 	getters: {
@@ -59,22 +61,28 @@ export default {
 			return state.minterPaused
 		},
 		getMinterTldPrice1(state) {
-			return state.minterTldPrice1
+			return Number.parseFloat(state.minterTldPrice1)
 		},
 		getMinterTldPrice2(state) {
-			return state.minterTldPrice2
+			return Number.parseFloat(state.minterTldPrice2)
 		},
 		getMinterTldPrice3(state) {
-			return state.minterTldPrice3
+			return Number.parseFloat(state.minterTldPrice3)
 		},
 		getMinterTldPrice4(state) {
-			return state.minterTldPrice4
+			return Number.parseFloat(state.minterTldPrice4)
 		},
 		getMinterTldPrice5(state) {
-			return state.minterTldPrice5
+			return Number.parseFloat(state.minterTldPrice5)
 		},
 		getReferralFee(state) {
 			return state.referralFee
+		},
+		getReservationsAddress(state) {
+			return state.reservationsAddress
+		},
+		getReservationsPaused(state) {
+			return state.reservationsPaused
 		},
 	},
 
@@ -120,6 +128,9 @@ export default {
 		setReferralFee(state, fee) {
 			state.referralFee = Number(fee)
 		},
+		setReservationsPaused(state, paused) {
+			state.reservationsPaused = paused
+		}
 	},
 
 	actions: {
@@ -160,6 +171,10 @@ export default {
 			// fetch referral fee
 			const refFee = await minterContract.referralFee()
 			commit('setReferralFee', refFee)
+
+			// check if reservations are paused
+			const reservationsPaused = await minterContract.pausedReservations()
+			commit('setReservationsPaused', reservationsPaused)
 
 			commit('setMinterLoadingData', false)
 		},

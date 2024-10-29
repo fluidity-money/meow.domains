@@ -5,17 +5,17 @@ export default {
 	namespaced: true,
 
 	state: () => ({
-		networkCurrency: 'SPN',
+		networkCurrency: 'ETH',
 		networkName: 'Unsupported Network',
 		supportedNetworks: {
-			98985: 'Superposition Testnet',
+			55244: 'Superposition',
 		},
 	}),
 
 	getters: {
 		getBlockExplorerBaseUrl() {
 			// TODO
-			return 'https://testnet-explorer.superposition.so/'
+			return 'https://explorer.superposition.so/'
 		},
 
 		getChainId() {
@@ -70,8 +70,8 @@ export default {
 	mutations: {
 		setNetworkData(state) {
 			// TODO
-			state.networkName = 'Superposition Testnet'
-			state.networkCurrency = 'SPN'
+			state.networkName = 'Superposition'
+			state.networkCurrency = 'ETH'
 		},
 	},
 

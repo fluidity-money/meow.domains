@@ -3,10 +3,12 @@
 		<img class="img-fluid main-img" src="/assets/logo.svg" />
 
 		<div class="text-align-header mt-5 mb-2">
-			<h1>Mint your {{ getTldName }} domain!</h1>
+			<h1>Mint your reserved {{ getTldName }} name!</h1>
 			<p>
-				And use it as username on the
-				<a href="https://www.superposition.so/" target="_blank"> Superposition L3 Chain</a>.
+				Mint a {{ getTldName }} name that you have reserved on the testnet. 
+				<br />
+				Hurry up, only available for a limited time until 
+				public minting is open to everyone!
 			</p>
 		</div>
 
@@ -14,7 +16,7 @@
 			<div class="input-group domain-input input-group-lg input-sizing">
 				<input
 					v-model="chosenDomainName"
-					placeholder="enter desired name"
+					placeholder="enter reserved name"
 					type="text"
 					class="form-control text-end border-2 border-end-0 border-light"
 					aria-label="Text input with dropdown button"
@@ -47,11 +49,11 @@
 
 		<!-- Minter contract paused -->
 		<button
-			v-if="isConnected && getMinterPaused && !getMinterLoadingData"
+			v-if="isConnected && getReservationsPaused && !getMinterLoadingData"
 			class="btn btn-primary btn-lg mt-3 buy-button"
 			:disabled="true"
 		>
-			<span v-if="getMinterPaused">Buying paused</span>
+			<span v-if="getReservationsPaused">Minting paused</span>
 		</button>
 
 		<!-- Minter contract loading data -->
@@ -66,7 +68,7 @@
 
 		<!-- Not eligible -->
 		<button
-			v-if="isConnected && isNetworkSupported && !getMinterPaused && !getCanUserBuy && !getMinterLoadingData"
+			v-if="isConnected && isNetworkSupported && !getReservationsPaused && !getCanUserBuy && !getMinterLoadingData"
 			class="btn btn-primary btn-lg mt-3 buy-button"
 			:disabled="waiting || buyNotValid(chosenDomainName).invalid || !hasUserEnoughTokens"
 		>
@@ -78,7 +80,7 @@
 			v-if="
 				isConnected &&
 				isNetworkSupported &&
-				!getMinterPaused &&
+				!getReservationsPaused &&
 				!hasUserEnoughTokens &&
 				getCanUserBuy &&
 				!getMinterLoadingData
@@ -95,7 +97,7 @@
 				isConnected &&
 				isNetworkSupported &&
 				getCanUserBuy &&
-				!getMinterPaused &&
+				!getReservationsPaused &&
 				hasUserEnoughTokens &&
 				!getMinterLoadingData
 			"
@@ -104,7 +106,7 @@
 			:disabled="waiting || buyNotValid(chosenDomainName).invalid || !hasUserEnoughTokens"
 		>
 			<span v-if="waiting" class="spinner-border spinner-border-sm mx-1" role="status" aria-hidden="true"></span>
-			<span>Buy domain</span>
+			<span>Mint your reserved name</span>
 		</button>
 
 		<!-- Connect Wallet -->
@@ -185,7 +187,7 @@ import MinterAbi from '../abi/Minter.json'
 import { useVueDappModal } from '@vue-dapp/modal'
 
 export default {
-	name: 'Home',
+	name: 'Reserved',
 
 	data() {
 		return {
@@ -222,7 +224,6 @@ export default {
 			'getMinterTldPrice3',
 			'getMinterTldPrice4',
 			'getMinterTldPrice5',
-			'getMinterPaused',
 			'getMinterDiscountPercentage',
 			'getReservationsAddress',
 			'getReservationsPaused',
@@ -271,7 +272,7 @@ export default {
 	},
 
 	methods: {
-		...mapActions('user', ['fetchCanUserBuy', 'getPaymentTokenDecimals']),
+		...mapActions('user', ['getPaymentTokenDecimals']),
 		...mapMutations('user', ['addDomainManually', 'setPaymentTokenAllowance']),
 
 		async buyDomain() {
@@ -289,24 +290,19 @@ export default {
 				return
 			}
 
-			// check if domain is reserved (only if reservations are not paused)
-			if (!this.getReservationsPaused) {
-				const resInterface = new ethers.utils.Interface([
-					'function getResNameAddress(string calldata _name) external view returns (address)',
-				])
-				const resContract = new ethers.Contract(this.getReservationsAddress, resInterface, this.signer)
-				const resHolder = await resContract.getResNameAddress(this.domainLowerCase)
+			// check if user has reserved the domain
+			const resInterface = new ethers.utils.Interface([
+				'function getResNameAddress(string calldata _name) external view returns (address)',
+			])
+			const resContract = new ethers.Contract(this.getReservationsAddress, resInterface, this.signer)
+			const resHolder = await resContract.getResNameAddress(this.domainLowerCase)
 
-				// if holder is not 0x0, this means that the domain is reserved
-				if (resHolder !== ethers.constants.AddressZero) {
-					if (String(resHolder).toLowerCase() !== String(this.address).toLowerCase()) {
-						this.toast('Sorry, this .meow name is reserved... Try a different one!', {
-							type: TYPE.ERROR,
-						})
-						this.waiting = false
-						return
-					}
-				}
+			if (String(resHolder).toLowerCase() !== String(this.address).toLowerCase()) {
+				this.toast('Sorry, but you have not reserved this .meow name...', {
+					type: TYPE.ERROR,
+				})
+				this.waiting = false
+				return
 			}
 
 			// wrapper contract (with signer)
@@ -320,7 +316,7 @@ export default {
 					referral = ethers.constants.AddressZero
 				}
 
-				const tx = await minterContractSigner.mint(this.domainLowerCase, this.address, referral, {
+				const tx = await minterContractSigner.mintReservation(this.domainLowerCase, this.address, referral, {
 					value: ethers.utils.parseEther(String(this.getPrice)),
 				})
 
@@ -341,7 +337,7 @@ export default {
 
 				if (receipt.status === 1) {
 					this.toast.dismiss(toastWait)
-					this.toast('You have successfully bought the domain!', {
+					this.toast('You have successfully minted the reserved name!', {
 						type: TYPE.SUCCESS,
 						onClick: () => window.open(this.getBlockExplorerBaseUrl + '/tx/' + tx.hash, '_blank').focus(),
 					})

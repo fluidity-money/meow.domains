@@ -13,7 +13,8 @@
 		<span v-if="isUserMinterAdmin || isUserRoyaltyFeeUpdater || isUserTldAdmin"> | </span>
 
 		<a target="_blank" href="https://punk.domains">Powered by Punk Domains</a> |
-		<a target="_blank" href="https://www.superposition.so/">Built for Superposition</a>
+		<a target="_blank" href="https://www.superposition.so/">Built for Superposition</a> |
+		<span class="footer-link" @click="deleteLocalStorage">Delete cookies</span>
 	</div>
 
 	<div class="container-fluid text-center">
@@ -23,7 +24,9 @@
 			><i class="bi bi-github"></i
 		></a>
 
+		<!--
 		<a class="icons" target="_blank" href=""><i class="bi bi-discord"></i></a>
+		-->
 
 		<a class="icons" target="_blank" href="https://x.com/superpositionso"><i class="bi bi-twitter"></i></a>
 	</div>
@@ -32,6 +35,7 @@
 <script>
 import { useVueDapp } from '@vue-dapp/core'
 import { mapGetters } from 'vuex'
+import { useToast, TYPE } from 'vue-toastification'
 
 export default {
 	name: 'Footer',
@@ -41,9 +45,17 @@ export default {
 		...mapGetters('user', ['isUserMinterAdmin', 'isUserTldAdmin', 'isUserRoyaltyFeeUpdater']),
 	},
 
+	methods: {
+		deleteLocalStorage() {
+			localStorage.clear()
+			this.toast('Cookies deleted!', {type: TYPE.SUCCESS}) // people don't know what localStorage is, so we say cookies
+		},
+	},
+
 	setup() {
 		const { isConnected } = useVueDapp()
-		return { isConnected }
+		const toast = useToast()
+		return { isConnected, toast }
 	},
 }
 </script>
