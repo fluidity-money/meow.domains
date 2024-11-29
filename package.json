@@ -13,7 +13,7 @@
 		"@vue-dapp/modal": "^1.4.1",
 		"bootstrap": "^5.3.0",
 		"bootstrap-icons": "^1.10.5",
-		"ethers": "^5.4.7",
+		"ethers": "^6.13.1",
 		"pinia": "^2.1.7",
 		"vue": "^3.2.16",
 		"vue-gtag": "^2.0.1",
